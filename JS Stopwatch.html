@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Stopwatch</title>
+</head>
+<body>
+    <div class="main">
+        <h1 style="text-align: center;">JS Stop Watch</h1>
+        <hr>
+        <div id="display">00:00:00</div>
+        <button onclick="start()">Start</button>
+        <button onclick="pause()">Pause</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+</body>
+<script>
+
+    const display = document.getElementById("display");
+    let time;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    const start = () => {
+        if (!time) {
+            time = setInterval(update, 1000);
+        }
+    };
+
+    const pause = () => {
+        clearInterval(time);
+        time = false
+    };
+
+    const reset = () => {
+        clearInterval(time);
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+        updateDisplay();
+        time = false
+    };
+
+    const update = () => {
+        seconds++;
+        if (seconds === 60) {
+            seconds = 0;
+            minutes++;
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+        }
+        updateDisplay();
+    };
+
+    const updateDisplay = () => {
+        let Hours1;
+        let Minutes1;
+        let Seconds1;
+
+        if (hours < 10) {
+            Hours1 = '0' + hours;
+        } else {
+            Hours1 = hours;
+        }
+
+        if (minutes < 10) {
+            Minutes1 = '0' + minutes;
+        } else {
+            Minutes1 = minutes;
+        }
+
+        if (seconds < 10) {
+            Seconds1 = '0' + seconds;
+        } else {
+            Seconds1 = seconds;
+        }
+
+        display.textContent = `${Hours1}:${Minutes1}:${Seconds1}`;
+    };
+</script>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JS Timer</title>
+</head>
+<body>
+    
+    <div class="main">
+        <h1 style="text-align: center;">JS Timer</h1>
+        <hr>
+        <div id="display">00:00:00</div>
+
+        <div class="inputs">
+            <input type="number" id="inhours" min="0" value="" placeholder="Hours">
+            <input type="number" id="inminutes" min="0" max="59" value="" placeholder="Minutes" >
+            <input type="number" id="inseconds" min="0" max="59" value="" placeholder="Seconds">
+        </div>
+        <div class="buttons">
+            <button onclick="start()">Start</button>
+            <button onclick="pause()">Pause</button>
+            <button onclick="reset()">Reset</button>
+        </div>
+
+    </div>
+</body>
+
+
+<script>
+    const display = document.getElementById("display");
+    let time;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    let inputHourse = document.getElementById("inhours")
+    let inputMinutes = document.getElementById("inminutes")
+    let inputSeconds = document.getElementById("inseconds")
+
+    const start = () => {
+        if (!time) {
+            hours = parseInt(inputHourse.value) || 0
+            minutes = parseInt(inputMinutes.value) || 0
+            seconds = parseInt(inputSeconds.value) || 0
+            time = setInterval(update, 1000);
+
+        }
+    };
+
+    const pause = () => {
+        clearInterval(time);
+        time = false
+    };
+
+    const reset = () => {
+        clearInterval(time);
+        hours = 0;
+        minutes = 0;
+        seconds = 0;
+        updateDisplay();
+        time = false
+    };
+
+    const update = () => {
+        if (hours === 0 && minutes === 0 && seconds === 0) {
+            clearInterval(time);
+            time = false;
+        } else {
+            if (seconds === 0) {
+                if (minutes > 0) {
+                    minutes--;
+                    seconds = 59;
+                } else if (hours > 0) {
+                    hours--;
+                    minutes = 59;
+                    seconds = 59;
+                }
+            } else {
+                seconds--;
+            }
+        }
+
+        updateDisplay();
+    };
+
+    const updateDisplay = () => {
+        let Hours1;
+        let Minutes1;
+        let Seconds1;
+
+        if (hours < 10) {
+            Hours1 = '0' + hours;
+        } else {
+            Hours1 = hours;
+        }
+
+        if (minutes < 10) {
+            Minutes1 = '0' + minutes;
+        } else {
+            Minutes1 = minutes;
+        }
+
+        if (seconds < 10) {
+            Seconds1 = '0' + seconds;
+        } else {
+            Seconds1 = seconds;
+        }
+
+        display.textContent = `${Hours1}:${Minutes1}:${Seconds1}`;
+        inputHourse.value = hours
+        inputMinutes.value = minutes
+        inputSeconds.value = seconds
+    };
+</script>
+</html>
